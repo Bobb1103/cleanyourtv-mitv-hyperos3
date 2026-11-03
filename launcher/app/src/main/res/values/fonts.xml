@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The UI fonts, looked up through these strings so a locale can swap in a system family: Outfit has no
+     glyphs for most Vietnamese accented letters, so values-vi points them at the system sans-serif (#833). -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ReferenceType">
+    <string name="font_body" translatable="false">@font/outfit</string>
+    <string name="font_regular" translatable="false">@font/outfit_regular</string>
+    <string name="font_light" translatable="false">@font/outfit_light</string>
+    <string name="font_extralight" translatable="false">@font/outfit_extralight</string>
+    <string name="font_medium" translatable="false">@font/outfit_medium</string>
+    <!-- Press Start 2P: the 8-bit pixel face for the clock. Latin digits and the colon only, so it is
+         never used for a line that can hold Chinese. -->
+    <string name="font_pixel" translatable="false">@font/press_start_2p</string>
+</resources>

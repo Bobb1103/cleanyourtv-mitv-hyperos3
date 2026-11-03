@@ -1,0 +1,62 @@
+name: CI
+
+# This fork's CI. Upstream's README-table / example-list validation is not kept here: the README is
+# hand written and the device lists live under device/, not examples/. The launcher job keeps the
+# same bar as upstream - unit tests, lint, release build - with two changes:
+#   - the build uses the CN-firmware HOME identity (com.ts.launcher), which is how this fork ships;
+#   - the APK size gate is raised from 512 KB to 768 KB, because the habit panel, the pixel figure
+#     and the Press Start 2P font add real bytes. Still bounded: the launcher targets 1 GB TVs.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  launcher:
+    name: Launcher build and unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: platforms;android-34 build-tools;34.0.0
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Unit tests, lint and release build (CN-firmware identity)
+        working-directory: launcher
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon testReleaseUnitTest lintRelease \
+            assembleRelease -PlauncherApplicationId=com.ts.launcher
+      - name: The launcher stays small
+        run: |
+          size=$(stat -c %s launcher/app/build/outputs/apk/release/app-release.apk)
+          echo "release APK: $((size / 1024)) KB"
+          test "$size" -lt 786432 || { echo "APK is over 768 KB; the launcher targets 1 GB TVs, keep it small"; exit 1; }
+
+  device-lists:
+    name: Debloat list format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Every entry is a bare package name
+        run: |
+          python3 - <<'EOF'
+          import re, sys
+          bad = 0
+          for path in ("device/xiaomi-mitv-mftr0/debloat-packages.txt",):
+              for n, line in enumerate(open(path, encoding="utf-8"), 1):
+                  line = line.strip()
+                  if not line or line.startswith("#"):
+                      continue
+                  if not re.fullmatch(r"[A-Za-z0-9._]+", line):
+                      print(f"{path}:{n}: not a bare package name: {line!r}")
+                      bad += 1
+          sys.exit(1 if bad else 0)
+          EOF

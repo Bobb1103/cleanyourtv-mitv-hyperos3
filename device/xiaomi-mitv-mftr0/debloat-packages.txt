@@ -1,0 +1,41 @@
+# Xiaomi MiTV-MFTR0 (freeguy, MediaTek mt9653), China firmware OS3.0.107.0.UFTMATV
+# (HyperOS TV 3), Android 14 (SDK 34). Built live on the owner's set on 2026-10-25,
+# from the MFTR0/OS2 example list plus the ASTR0 (OS3/Android 14) record, then
+# adjusted to the owner's choices:
+# - KEEP: voice assistant (voicecontrol/wakeupservice), casting (miplay/smartshare),
+#   Mi Home + tvmanager, Xiaomi app store, all preloaded streaming apps.
+# - DISABLE additionally: com.xiaomi.mitv.upgrade (owner declined OTA updates).
+# Undo: TV_HOST=<tv ip> tools/restore.sh backup/MFTR0-20261025/debloat-mine.txt com.mitv.tvhome
+# Everything is DISABLED, not uninstalled.
+
+# Xiaomi telemetry / ads / push / cloud
+com.miui.tv.analytics
+com.xiaomi.tvqs
+com.miui.misightservice
+com.mitv.cloudcontrol
+com.xiaomi.mitv.tvpush.tvpushservice
+com.miui.hybrid.tv
+com.xm.webcontent
+com.duokan.videodaily
+com.xiaomi.gamecenter.sdk.service.mibox
+com.mitv.shoplugin
+com.mitv.overseaservice
+com.xiaomi.mitv.hyper.screensaver
+
+# Preloaded tool apps (owner-approved)
+com.xiaomi.mitv.calendar
+com.xiaomi.mitv.healthdiagnosis
+com.xiaomi.mitv.karaoke.service
+com.xiaomi.screenrecorder
+com.mitv.toolhouse
+com.mitv.gallery
+com.quark.yun.tv
+
+# AOSP ad/privacy modules (Android 14; same four disabled on ASTR0, same OS family)
+com.android.adservices.api
+com.android.ext.adservices.api
+com.android.ondevicepersonalization.services
+com.android.federatedcompute.services
+
+# System update (owner declined; re-enable to receive OTA firmware updates)
+com.xiaomi.mitv.upgrade

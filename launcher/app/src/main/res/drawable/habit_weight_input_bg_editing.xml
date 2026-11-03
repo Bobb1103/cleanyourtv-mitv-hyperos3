@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The box once OK has opened it: the fill and the edge both brighten, so it is plain that up and
+     down are live now and that the next OK will write the number down. Reached only from
+     habit_weight_input_bg_focused, since the box has to be selected before it can be opened. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#99241A0C" />
+    <stroke
+        android:width="2dp"
+        android:color="#FFB35C" />
+    <corners android:radius="8dp" />
+</shape>

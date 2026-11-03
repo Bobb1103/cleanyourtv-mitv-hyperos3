@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+}
+
+// A one-tile holder for an app this firmware gave no Leanback (TV) launcher entry: Xiaomi's app
+// store declares MainActivity only under the vendor's own APPSTORE_LAUNCHER category, so no
+// third-party launcher can list it. This module ships one TV-browseable tile whose onResume
+// forwards to the real component and finishes itself, the same idea as the allowlist trampoline in
+// docs/devices/xiaomi-mitv-aetp0-dofus.md. Everything ships in one APK; add a second activity here
+// rather than a second module if another app needs an entry.
+android {
+    namespace 'com.local.shortcut'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.local.shortcut'
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName '1.0'
+    }
+
+    // Sideloaded over ADB only: the debug key keeps reinstalls from clashing.
+    signingConfigs {
+        debug {
+            storeFile file("${System.getProperty('user.home')}/.android/debug.keystore")
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

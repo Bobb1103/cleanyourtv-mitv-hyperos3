@@ -1,0 +1,80 @@
+2 activities found:
+  Activity #0:
+    priority=0 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=true
+    ActivityInfo:
+      name=com.mitv.tvhome.MainActivityUserMode
+      packageName=com.mitv.tvhome
+      labelRes=0x7f100088 nonLocalizedLabel=null icon=0x0 banner=0x0
+      enabled=true exported=true directBootAware=false
+      permission=com.mitv.tvhome.permission.HOME_STATE
+      taskAffinity=com.mitv.tvhome targetActivity=null persistableMode=PERSIST_ROOT_ONLY
+      launchMode=LAUNCH_SINGLE_TASK flags=0x14214 privateFlags=0x2 theme=0x7f110012
+      screenOrientation=-1 configChanges=0x3 softInputMode=0x0
+      lockTaskLaunchMode=LOCK_TASK_LAUNCH_MODE_DEFAULT
+      resizeMode=RESIZE_MODE_FORCE_RESIZEABLE
+      maxAspectRatio=1.86
+      knownActivityEmbeddingCerts={}
+      ApplicationInfo:
+        name=com.mitv.tvhome.TvHomeMainApplication
+        packageName=com.mitv.tvhome
+        labelRes=0x7f100088 nonLocalizedLabel=null icon=0x7f0805d9 banner=0x0
+        className=com.mitv.tvhome.TvHomeMainApplication
+        processName=com.mitv.tvhome
+        taskAffinity=com.mitv.tvhome
+        uid=1000 flags=0x38d83ec5 privateFlags=0xa4140100 theme=0x7f110007
+        requiresSmallestWidthDp=0 compatibleWidthLimitDp=0 largestWidthLimitDp=0
+        sourceDir=/data/app/~~EHW3Gw7Sk2fjW4BuKAq0TA==/com.mitv.tvhome-zEsO4d-llfiNLZuOJDKwrA==/base.apk
+        seinfo=platform:privapp:targetSdkVersion=19
+        seinfoUser=:complete
+        dataDir=/data/user/0/com.mitv.tvhome
+        deviceProtectedDataDir=/data/user_de/0/com.mitv.tvhome
+        credentialProtectedDataDir=/data/user/0/com.mitv.tvhome
+        sharedLibraryFiles=[/system/framework/android.test.base.jar, /system/framework/android.hidl.manager-V1.0-java.jar, /system/framework/android.hidl.base-V1.0-java.jar, /system/framework/MitvAPIImpl.jar, /system/framework/mitvmiddlewareimpl.jar, /system/framework/org.apache.http.legacy.jar]
+        enabled=true minSdkVersion=18 targetSdkVersion=23 versionCode=100413 targetSandboxVersion=1
+        supportsRtl=true
+        fullBackupContent=true
+        crossProfile=false
+        HiddenApiEnforcementPolicy=0
+        usesNonSdkApi=false
+        allowsPlaybackCapture=false
+        nativeHeapZeroInitialized=0
+        enableOnBackInvokedCallback=false
+        createTimestamp=235422530
+  Activity #1:
+    priority=-1000 preferredOrder=0 match=0x108000 specificIndex=-1 isDefault=true
+    ActivityInfo:
+      name=com.xiaomi.mitv.settings.entry.FallbackHome
+      packageName=com.xiaomi.mitv.settings
+      enabled=true exported=true directBootAware=true
+      taskAffinity=null targetActivity=null persistableMode=PERSIST_ROOT_ONLY
+      launchMode=LAUNCH_MULTIPLE flags=0x10220 privateFlags=0x2 theme=0x7f1000d5
+      screenOrientation=-1 configChanges=0x40002ff7 softInputMode=0x0
+      lockTaskLaunchMode=LOCK_TASK_LAUNCH_MODE_DEFAULT
+      resizeMode=RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION
+      knownActivityEmbeddingCerts={}
+      ApplicationInfo:
+        name=com.xiaomi.mitv.settings.SettingsApp
+        packageName=com.xiaomi.mitv.settings
+        labelRes=0x7f0f009a nonLocalizedLabel=null icon=0x7f08027e banner=0x0
+        className=com.xiaomi.mitv.settings.SettingsApp
+        processName=com.xiaomi.mitv.settings
+        taskAffinity=null
+        uid=1000 flags=0x2898be45 privateFlags=0x8c101108 theme=0x7f1000d2
+        requiresSmallestWidthDp=0 compatibleWidthLimitDp=0 largestWidthLimitDp=0
+        sourceDir=/system/priv-app/MiTVSettings/MiTVSettings.apk
+        seinfo=platform:privapp:targetSdkVersion=19
+        seinfoUser=:complete
+        dataDir=/data/user/0/com.xiaomi.mitv.settings
+        deviceProtectedDataDir=/data/user_de/0/com.xiaomi.mitv.settings
+        credentialProtectedDataDir=/data/user/0/com.xiaomi.mitv.settings
+        sharedLibraryFiles=[/system/framework/MitvAPIImpl.jar, /system/framework/mitvmiddlewareimpl.jar]
+        enabled=true minSdkVersion=34 targetSdkVersion=35 versionCode=401286 targetSandboxVersion=1
+        supportsRtl=false
+        fullBackupContent=true
+        crossProfile=false
+        HiddenApiEnforcementPolicy=0
+        usesNonSdkApi=false
+        allowsPlaybackCapture=true
+        nativeHeapZeroInitialized=0
+        enableOnBackInvokedCallback=false
+        createTimestamp=235422530

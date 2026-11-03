@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "tvhome"
+include ':app'
+// Optional tile whose only job is to open Xiaomi's app store: its own MainActivity carries no
+// Leanback launcher category, so no third-party grid can list it (shortcut/README.md).
+include ':shortcut'
