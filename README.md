@@ -1,73 +1,73 @@
 # cleanyourtv-mitv-hyperos3
 
-> 小米电视（澎湃 / HyperOS TV 3）上的 CleanYourTV 定制分支：一套**减肥打卡桌面** + 一份**澎湃 3.0 设备适配记录**。
-> 上游 [CleanYourTV](https://github.com/Gathin/cleanyourtv)（MIT，© 2026 Gathin）的 fork，保留全部上游功能，本分支只叠加两层东西。
+> A CleanYourTV fork for Xiaomi TV (HyperOS TV 3): a **weight-loss habit launcher** plus a written-up **HyperOS 3 device adaption record**.
+> Fork of upstream [CleanYourTV](https://github.com/Gathin/cleanyourtv) (MIT, (c) 2026 Gathin). Every upstream feature is kept; this branch adds two layers on top.
 
-![桌面总览](docs/images/home-overview.png)
-
----
-
-## ⚠️ 先读这一段
-
-- **桌面定制部分**（打卡表、体重页、像素小人）只是普通的 Android 应用代码，编译安装即可，风险为零。
-- **设备改动部分**（`device/xiaomi-mitv-mftr0/`，停用系统应用、接管 HOME）会改变电视的系统状态：
-  - 全部操作走 **ADB 停用（disable）而非卸载**，可一键恢复；
-  - 停用 `com.xiaomi.mitv.upgrade` 后**收不到官方 OTA 固件更新**，需要时重新启用即可；
-  - 接管 HOME 后原桌面 PatchWall 仍在（仅停用），随时可切回；
-  - 每台电视的固件、包名、白名单都不同，**本仓库的清单只在 MiTV-MFTR0（freeguy，OS3.0.107.0.UFTMATV，Android 14）上实测过**，其他机型请先比对 `device/xiaomi-mitv-mftr0/inventory/` 里的快照再动手。
-- 仓库里的设备快照已脱敏：`android_id`、蓝牙 MAC、小米账号 ID 均替换为 `<redacted>`。
+![Home screen overview](docs/images/home-overview.png)
 
 ---
 
-## 这个仓库里有什么
+## Read this first
 
-### 一、桌面定制（本分支新增，上游没有）
+- **The launcher half** (habit calendar, weight page, pixel figure) is ordinary Android application code. Build it, install it, done. No risk involved.
+- **The device half** (`device/xiaomi-mitv-mftr0/`, disabling system apps and taking over HOME) changes the state of your TV:
+  - Everything goes through **ADB disable, never uninstall**, so one command puts it all back;
+  - Disabling `com.xiaomi.mitv.upgrade` means **no more official OTA firmware updates** until you enable it again;
+  - After taking over HOME, the stock PatchWall launcher is still on the box (only disabled) and you can switch back at any time;
+  - Firmware, package names and HOME whitelists differ per TV. **The lists here were tested on exactly one model: MiTV-MFTR0 (codename freeguy, OS3.0.107.0.UFTMATV, Android 14).** On any other model, compare against the snapshots in `device/xiaomi-mitv-mftr0/inventory/` before you touch anything.
+- Device snapshots in this repository are redacted: `android_id`, the Bluetooth MAC and the Xiaomi account id are all replaced with `<redacted>`.
 
-| 功能 | 说明 | 文档 |
+---
+
+## What is in here
+
+### 1. Launcher customisation (added by this branch, not in upstream)
+
+| Feature | What it does | Docs |
 | --- | --- | --- |
-| 坚持墙打卡表 | 从起始日到今天每天一格；**双击左键**打卡/撤销，单击不做事（防误触） | [docs/habit-panel.md](docs/habit-panel.md) |
-| 体重页 | 打卡页按**右键**进入：起始 / 当前 / 目标 + 已打卡天数 + 等级 | [docs/habit-panel.md](docs/habit-panel.md) |
-| 像素小人 | 16×26 网格的像素小人，形态跟着时钟走，体形跟着体重走 | [docs/pixel-figure.md](docs/pixel-figure.md) |
-| 举杠铃动画 | 14:00–16:00 时段：B 腹前提起 → A 过顶举起，500 ms 一帧循环成一次完整举重 | [docs/pixel-figure.md](docs/pixel-figure.md) |
-| 像素时钟 | Press Start 2P 点阵字体的时间 / 日期区 | [docs/habit-panel.md](docs/habit-panel.md) |
-| 图标美化 | 图标底板取图标边缘色、主体过小自动放大、网格常显应用名、Dock 纯图标 | [docs/mitv-hyperos3.md](docs/mitv-hyperos3.md) |
+| Streak calendar | One square per day from the start date to today. **Left pressed twice** checks in or undoes it; a single press does nothing, so a stray touch cannot mark a day | [docs/habit-panel.md](docs/habit-panel.md) |
+| Weight page | **Right** on the calendar: start / current / goal weight, days checked in, and the level | [docs/habit-panel.md](docs/habit-panel.md) |
+| Pixel figure | A 16x26 pixel person. The pose follows the clock, the build follows your weight | [docs/pixel-figure.md](docs/pixel-figure.md) |
+| Barbell animation | Between 14:00 and 16:00: frame B (bar at the belly) then frame A (bar overhead), 500 ms per frame, looping as one complete lift | [docs/pixel-figure.md](docs/pixel-figure.md) |
+| Pixel clock | Time and date drawn in the Press Start 2P dot-matrix face | [docs/habit-panel.md](docs/habit-panel.md) |
+| Tile polish | Tile plates sampled from the icon's edge colour, small artwork scaled up, app names always shown on the grid, Dock left icon-only | [docs/mitv-hyperos3.md](docs/mitv-hyperos3.md) |
 
-![举杠铃两帧](docs/images/lift-preview.png)
+![The two barbell frames](docs/images/lift-preview.png)
 
-### 二、澎湃 3.0 设备适配（记录 + 脚本）
+### 2. HyperOS 3 device adaption (record and scripts)
 
-| 内容 | 说明 |
+| Item | Notes |
 | --- | --- |
-| HOME 白名单绕过 | CN 固件拒绝 `com.gathin.tvhome` 接管 HOME，改用 `-PlauncherApplicationId=com.ts.launcher` 构建 |
-| 停用清单 | 24 个遥测 / 广告 / 预装包 + 系统更新，附停用前后的包名快照 |
-| 小米应用商店入口壳 | `launcher/shortcut`（`com.local.shortcut`）给没有 LEANBACK 入口的商店补桌面磁贴 |
-| 直播源实测 | 57 个候选地址实测，只 11 个能抓到播放列表 → [docs/live-sources.md](docs/live-sources.md) |
-| Netflix 兼容性诊断 | 结论：这台电视无 Widevine CDM，装不了也用不了 → [docs/netflix-compat-check.md](docs/netflix-compat-check.md) |
-| 快照与恢复脚本 | [device/xiaomi-mitv-mftr0/](device/xiaomi-mitv-mftr0/) |
+| HOME whitelist workaround | CN firmware refuses to let `com.gathin.tvhome` take HOME; build with `-PlauncherApplicationId=com.ts.launcher` instead |
+| Disable list | 24 telemetry / ad / preinstalled packages plus the system updater, with before-and-after package snapshots |
+| Xiaomi App Store entry shell | `launcher/shortcut` (`com.local.shortcut`) puts a tile on the home screen for a store that has no LEANBACK entry |
+| Live TV sources | 57 candidate URLs tried, 11 returned a playable list - [docs/live-sources.md](docs/live-sources.md) |
+| Netflix compatibility | Verdict: this TV has no Widevine CDM, so Netflix neither installs nor works - [docs/netflix-compat-check.md](docs/netflix-compat-check.md) |
+| Snapshots and restore scripts | [device/xiaomi-mitv-mftr0/](device/xiaomi-mitv-mftr0/) |
 
 ---
 
-## 快速开始（只想装桌面）
+## Quick start (just want the launcher)
 
 ```bash
-git clone <本仓库地址> && cd cleanyourtv-mitv-hyperos3
+git clone <this repository> && cd cleanyourtv-mitv-hyperos3
 
-# 1. 告诉 Gradle 你的 SDK 在哪（换成你自己的路径）
+# 1. Tell Gradle where your SDK is (use your own path)
 echo "sdk.dir=C:/Path/To/android-sdk" > launcher/local.properties
 
-# 2. 构建（JDK 17 + Android SDK 34）
+# 2. Build (JDK 17 + Android SDK 34)
 cd launcher
-./gradlew assembleRelease                                          # 标准包名 com.gathin.tvhome
-./gradlew assembleRelease -PlauncherApplicationId=com.ts.launcher  # 小米 CN 固件必须用这个身份
+./gradlew assembleRelease                                           # standard package com.gathin.tvhome
+./gradlew assembleRelease -PlauncherApplicationId=com.ts.launcher   # required on Xiaomi CN firmware
 
-# 3. 装到电视（电视需先开 ADB 调试：设置 → 账号与安全 → ADB 调试）
-adb connect <电视IP>:5555
+# 3. Install (enable ADB debugging on the TV first: Settings - Accounts & Security - ADB debugging)
+adb connect <tv-ip>:5555
 adb install -r app/build/outputs/apk/release/app-release.apk
 ```
 
-> **小米 CN 固件必读**：标准包名 `com.gathin.tvhome` 不在固件 HOME 白名单里，`set-home-activity` 会报 Success 但实际不生效（FallbackHome 接管）。必须用上面的 `-PlauncherApplicationId=com.ts.launcher` 构建，组件名仍是 `com.gathin.tvhome/.MainActivity`。
+> **On Xiaomi CN firmware:** the standard package name `com.gathin.tvhome` is not in the firmware's HOME whitelist. `set-home-activity` reports Success but nothing changes (FallbackHome takes over instead). Build with `-PlauncherApplicationId=com.ts.launcher` as above; the component is still `com.gathin.tvhome/.MainActivity`.
 
-装完后设为默认桌面：
+Then make it the default home:
 
 ```bash
 adb shell cmd package set-home-activity com.ts.launcher/com.gathin.tvhome.MainActivity
@@ -75,76 +75,77 @@ adb shell cmd package set-home-activity com.ts.launcher/com.gathin.tvhome.MainAc
 
 ---
 
-## 遥控器怎么用
+## Remote control
 
-| 位置 | 按键 | 效果 |
+| Where | Key | Effect |
 | --- | --- | --- |
-| 打卡页 | **左键连按两下**（800 ms 内） | 今天打卡 / 再按两下撤销 |
-| 打卡页 | **右键** | 进入体重页 |
-| 打卡页 | **左键单击** | 不做事（防方向盘误触） |
-| 体重页 | **左键** | 返回打卡页 |
-| 体重页 | **下键** → **OK** → 上下键 → **OK** | 选中体重框 → 开始编辑 → 调 0.1 kg → 保存记录 |
-| 任意磁贴 | **上键** | 焦点回到打卡面板 |
+| Calendar | **Left twice** (within 800 ms) | Check in today; twice again to undo |
+| Calendar | **Right** | Go to the weight page |
+| Calendar | **Left once** | Nothing - deliberate, so a stray press cannot mark a day |
+| Weight page | **Left** | Back to the calendar |
+| Weight page | **Down** then **OK**, then up/down, then **OK** | Select the weight box, start editing, step by 0.1 kg, save |
+| Any tile | **Up** | Focus returns to the habit panel |
 
-体重框未进入编辑态时，上下键只做正常导航，**不会误改数值**。
+Outside edit mode, up and down only navigate; they do **not** change the number.
 
 ---
 
-## 目录结构
+## Layout
 
 ```
 cleanyourtv-mitv-hyperos3/
-├── launcher/                 桌面源码（上游全量 + 本分支定制）
+├── launcher/                 launcher sources (all of upstream + this branch's changes)
 │   ├── app/src/main/java/com/gathin/tvhome/
-│   │   ├── HabitPanel.java      打卡表 + 体重页（本分支新增）
-│   │   ├── HabitCalendar.java   打卡数据存储（本分支新增）
-│   │   ├── PixelBodyView.java   像素小人（本分支新增）
-│   │   └── MainActivity.java    接入面板 + 焦点/显隐规则（上游基础上改）
-│   └── shortcut/             小米应用商店入口壳 com.local.shortcut（本分支新增）
-├── device/xiaomi-mitv-mftr0/ 澎湃 3.0 设备改动：停用清单、快照、恢复说明
-├── docs/                     定制文档 + 上游文档（docs/upstream/）
-├── tools/                    验证与效果图脚本（含 tv_check.py 真机自动巡检）
-└── addons/ themes/ examples/ tests/   上游自带
+│   │   ├── HabitPanel.java      calendar + weight page (added here)
+│   │   ├── HabitCalendar.java   check-in storage (added here)
+│   │   ├── PixelBodyView.java   the pixel figure (added here)
+│   │   └── MainActivity.java    wires up the panel, focus and fade rules (modified from upstream)
+│   └── shortcut/              Xiaomi App Store entry shell, com.local.shortcut (added here)
+├── device/xiaomi-mitv-mftr0/  HyperOS 3 work: disable list, snapshots, restore notes
+├── docs/                      this branch's docs, plus upstream's own under docs/upstream/
+├── tools/                     verification and mock-up scripts - see [docs/tools.md](docs/tools.md)
+└── addons/ themes/ examples/ tests/   from upstream
 ```
 
-本分支改动的上游文件主要有：`MainActivity.java`、`AppAdapter.java`、`activity_main.xml`、`config.xml`、`strings.xml`、`item_app.xml`，以及新增的 `HabitPanel.java`、`HabitCalendar.java`、`PixelBodyView.java` 和 `shortcut/` 模块。
+Upstream files this branch modified: `MainActivity.java`, `AppAdapter.java`, `activity_main.xml`, `config.xml`, `strings.xml`, `item_app.xml`. Files added: `HabitPanel.java`, `HabitCalendar.java`, `PixelBodyView.java` and the `shortcut/` module.
 
 ---
 
-## 配置（改这些就能调）
+## Configuration
 
-全部在 `launcher/app/src/main/res/values/config.xml`：
+All of it lives in `launcher/app/src/main/res/values/config.xml`:
 
-| 键 | 作用 |
+| Key | Meaning |
 | --- | --- |
-| `habit_calendar` | 打卡面板开关 |
-| `habit_start` | 挑战起始日，如 `2026-10-18` |
-| `habit_seed` | 历史补录（逗号分隔日期）；电视无 root 时用种子写入 |
-| `habit_weight_page` | 体重页开关 |
-| `habit_weight_steps` | 体形分档的体重刻度，如 `80,77,74,71,68,65` |
-| `habit_weight_seed` | 历史体重，格式 `2026-10-19=80.0,2026-10-21=79.2` |
-| `habit_weight_step` | 录入步长（kg），默认 `0.1` |
-| `dock_apps` | Dock 上的应用包名 |
+| `habit_calendar` | Turns the calendar on or off |
+| `habit_start` | First day of the challenge, e.g. `2026-10-18` |
+| `habit_seed` | Backfilled days, comma-separated; how history gets in on a TV without root |
+| `habit_weight_page` | Turns the weight page on or off |
+| `habit_weight_steps` | The weight scale that splits the five builds, e.g. `80,77,74,71,68,65` |
+| `habit_weight_seed` | Weight history as `2026-10-19=80.0,2026-10-21=79.2` |
+| `habit_weight_step` | Editing step in kg, `0.1` by default |
+| `dock_apps` | Package names shown on the Dock |
 
-运行期改配置（不用重装）：把 `{"uniform_tiles":true,"tile_menu":true}` 之类的配置推到
-`/sdcard/Android/data/<包名>/files/config.json`，见上游 [docs/modules.md](docs/modules.md) 与 `themes/` 目录。
-
----
-
-## 文档索引
-
-- [docs/habit-panel.md](docs/habit-panel.md) — 打卡表与体重页：交互、数据、配置、显隐规则
-- [docs/pixel-figure.md](docs/pixel-figure.md) — 像素小人：三形态时间表、举杠铃动画、绘制原理
-- [docs/mitv-hyperos3.md](docs/mitv-hyperos3.md) — 澎湃 3.0 适配要点与踩坑
-- [device/xiaomi-mitv-mftr0/](device/xiaomi-mitv-mftr0/) — 设备操作手册 + 停用清单 + 快照
-- [docs/live-sources.md](docs/live-sources.md)、[docs/netflix-compat-check.md](docs/netflix-compat-check.md) — 两份实测结论
-- [docs/upstream/](docs/upstream/) — 上游 CleanYourTV 原始文档
+To change things without reinstalling, push a config such as `{"uniform_tiles":true,"tile_menu":true}` to
+`/sdcard/Android/data/<package>/files/config.json`. See upstream [docs/modules.md](docs/modules.md) and the `themes/` folder.
 
 ---
 
-## 致谢与许可
+## Documentation
 
-- 上游 [CleanYourTV](https://github.com/Gathin/cleanyourtv)，MIT © 2026 Gathin —— 本仓库保留了上游全部源码与文档，桌面的一切能力都建立在它之上。
-- Press Start 2P 字体（SIL Open Font License 1.1），见 `launcher/FONT-LICENSE-OFL.txt`。
-- 本分支改动同样以 MIT 发布，见 [LICENSE](LICENSE) 与 [NOTICE](NOTICE.md)。
-- 设备改动记录来自一台真实的小米电视（MiTV-MFTR0），所有快照已脱敏；**照抄前请先对照你自己的机型**。
+- [docs/habit-panel.md](docs/habit-panel.md) - the calendar and weight page: interaction, storage, config, show/hide rules
+- [docs/pixel-figure.md](docs/pixel-figure.md) - the pixel figure: pose schedule, barbell animation, how it is drawn
+- [docs/mitv-hyperos3.md](docs/mitv-hyperos3.md) - HyperOS 3 porting notes and the traps found on the way
+- [device/xiaomi-mitv-mftr0/](device/xiaomi-mitv-mftr0/) - device manual, disable list, snapshots
+- [docs/live-sources.md](docs/live-sources.md) and [docs/netflix-compat-check.md](docs/netflix-compat-check.md) - two test reports
+- [docs/tools.md](docs/tools.md) - what every script under `tools/` does, and how to point them at your TV
+- [docs/upstream/](docs/upstream/) - upstream CleanYourTV's own documentation, kept as it is
+
+---
+
+## Credits and licence
+
+- Upstream [CleanYourTV](https://github.com/Gathin/cleanyourtv), MIT (c) 2026 Gathin. Every upstream source file and document is kept here; everything this launcher can do is built on it.
+- Press Start 2P font (SIL Open Font License 1.1), see `launcher/FONT-LICENSE-OFL.txt`.
+- This branch's changes are released under MIT too - see [LICENSE](LICENSE) and [NOTICE](NOTICE.md).
+- The device record comes from one physical Xiaomi TV (MiTV-MFTR0) with all identifiers redacted. **Check it against your own model before copying anything.**
